@@ -1,23 +1,15 @@
-let runAddition = () => {
-    let num1 = parseFloat(document.getElementById("num1").value);
-    let num2 = parseFloat(document.getElementById("num2").value);
+function performOperation(operation) {
+    const num1 = document.getElementById('num1').value;
+    const num2 = document.getElementById('num2').value;
+    const url = `http://localhost:8080/${operation}?num1=${encodeURIComponent(num1)}&num2=${encodeURIComponent(num2)}`;
 
-    let result = num1 + num2;
-    document.getElementById("system_response").innerHTML = "Result: " + result;
-};
-
-let runSubtraction = () => {
-    let num1 = parseFloat(document.getElementById("num1").value);
-    let num2 = parseFloat(document.getElementById("num2").value);
-
-    let result = num1 - num2;
-    document.getElementById("system_response").innerHTML = "Result: " + result;
-};
-
-let runMultiplication = () => {
-    let num1 = parseFloat(document.getElementById("num1").value);
-    let num2 = parseFloat(document.getElementById("num2").value);
-
-    let result = num1 * num2;
-    document.getElementById("system_response").innerHTML = "Result: " + result;
-};
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('system_response').innerText = 'Result: ' + data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('system_response').innerText = 'Error: Could not perform the operation';
+        });
+}
